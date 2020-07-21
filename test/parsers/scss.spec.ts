@@ -9,17 +9,25 @@ describe('scssParser', () => {
       expect(parsedContent.length).toBe(0);
     });
 
-    it('given inline styles create a tokens results correctly', () => {
-      const [parsedContent] = scssParser('$myVar: red');
+    it('should not parse non commented tokens', () => {
+      const styles = `
+          $myVar: red;
+          $mySecondVar: blue;
+    `;
 
-      expect(parsedContent.value).toBe('red');
-      expect(parsedContent.declaration).toBe('myVar');
+      const parsedContent = scssParser(styles);
+
+      expect(parsedContent.length).toBe(0);
     });
 
     it('given multiline styles create a tokens results correctly', () => {
       const [parsedContent] = scssParser(`
-    $myVar: red
-    `);
+        /**
+         * @tokens Colors
+         * @presenter Color
+         */
+        $myVar: red;
+      `);
 
       expect(parsedContent.value).toBe('red');
       expect(parsedContent.declaration).toBe('myVar');
@@ -27,6 +35,10 @@ describe('scssParser', () => {
 
     it('given multiline styles with multiple variables declarations create a tokens results correctly', () => {
       const styles = `
+      /**
+       * @tokens Colors
+       * @presenter Color
+       */
         $myVar: red;
         $mySecondVar: blue;
     `;
