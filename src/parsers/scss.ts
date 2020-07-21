@@ -9,13 +9,6 @@ type TokensResult = {
   presenterName: string;
 };
 
-/**
- * Object
- *   variable: variable Declaration
- *   presenter: Component
- *   value: value of variable declaration
- *   @token Name
- */
 export const scssParser = (styles: string): TokensResult[] => {
   if (!styles) {
     return [];
