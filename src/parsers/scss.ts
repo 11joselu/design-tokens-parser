@@ -1,11 +1,12 @@
 import { parseContent, Node } from '../parseContent';
 
 const SYNTAX = 'scss';
+
 type ParserResult = {
-  type: string;
-  presenter: string;
+  declaration: string;
   value: string;
-  tokenName: string;
+  presenter: string;
+  presenterName: string;
 };
 
 /**
@@ -16,9 +17,29 @@ type ParserResult = {
  *   @token Name
  */
 export const scssParser = (
-  content: string
+  styles: string
 ): ParserResult | Record<string, unknown> => {
-  const parsed = parseContent(content, SYNTAX);
+  if (!styles) {
+    return {};
+  }
 
-  return {};
+  const parsed = parseContent(styles, SYNTAX);
+  const content = parsed.content as Node[];
+
+  const result = content.map((node) => {
+    const propertyNode = node.first('property');
+    const variableNode = propertyNode.first('variable');
+    const variableIdentNode = variableNode.first('ident');
+    const valueNode = node.first('value');
+    const valueIdentNode = valueNode.first('ident');
+
+    return {
+      declaration: variableIdentNode.content,
+      value: valueIdentNode.content,
+      presenter: 'X',
+      presenterName: 'xxxx',
+    };
+  });
+
+  return result[0];
 };

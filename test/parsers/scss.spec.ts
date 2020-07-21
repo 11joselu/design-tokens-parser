@@ -6,4 +6,11 @@ describe('scssParser', () => {
 
     expect(parsedContent).toMatchObject({});
   });
+
+  it('generate styles tokens correctly', () => {
+    const parsedContent = scssParser('$myVar: red');
+
+    expect(parsedContent.value).toBe('red');
+    expect(parsedContent.declaration).toBe('myVar');
+  });
 });
