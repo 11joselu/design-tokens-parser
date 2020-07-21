@@ -9,6 +9,7 @@
     "jsx": "react",
     "module": "commonjs",
     "target": "es5",
+    "lib": ["es2019"],
     "outDir": "./build"
   },
   "include": ["src/**/*"],
