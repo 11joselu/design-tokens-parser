@@ -16,18 +16,16 @@ type TokensResult = {
  *   value: value of variable declaration
  *   @token Name
  */
-export const scssParser = (
-  styles: string
-): TokensResult | Record<string, unknown> => {
+export const scssParser = (styles: string): TokensResult[] => {
   if (!styles) {
-    return {};
+    return [];
   }
 
   const parsed = parseContent(styles, SYNTAX);
   const content = parsed.content as Node[];
   const filteredContent = getOnlyDeclarationNodes(content);
 
-  const result = filteredContent.map((node) => {
+  const result: TokensResult[] = filteredContent.map((node) => {
     const propertyNode = node.first('property');
     const variableNode = propertyNode.first('variable');
     const variableIdentNode = variableNode.first('ident');
@@ -35,14 +33,14 @@ export const scssParser = (
     const valueIdentNode = valueNode.first('ident');
 
     return {
-      declaration: variableIdentNode.content,
-      value: valueIdentNode.content,
+      declaration: variableIdentNode.content as string,
+      value: valueIdentNode.content as string,
       presenter: 'X',
       presenterName: 'xxxx',
     };
   });
 
-  return result[0];
+  return result;
 };
 
 export const getOnlyDeclarationNodes = (content: Node[]): Node[] =>

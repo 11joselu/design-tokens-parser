@@ -2,26 +2,44 @@ import { scssParser, getOnlyDeclarationNodes } from '../../src/parsers/scss';
 import { Node, NodeType } from '../../src/parseContent';
 
 describe('scssParser', () => {
-  it('given empty string return an empty object ', () => {
-    const parsedContent = scssParser('');
+  describe('styles parser', () => {
+    it('given empty string return an empty object ', () => {
+      const parsedContent = scssParser('');
 
-    expect(parsedContent).toMatchObject({});
-  });
+      expect(parsedContent.length).toBe(0);
+    });
 
-  it('given inline styles create a tokens results correctly', () => {
-    const parsedContent = scssParser('$myVar: red');
+    it('given inline styles create a tokens results correctly', () => {
+      const [parsedContent] = scssParser('$myVar: red');
 
-    expect(parsedContent.value).toBe('red');
-    expect(parsedContent.declaration).toBe('myVar');
-  });
+      expect(parsedContent.value).toBe('red');
+      expect(parsedContent.declaration).toBe('myVar');
+    });
 
-  it('given multiline styles create a tokens results correctly', () => {
-    const parsedContent = scssParser(`
+    it('given multiline styles create a tokens results correctly', () => {
+      const [parsedContent] = scssParser(`
     $myVar: red
     `);
 
-    expect(parsedContent.value).toBe('red');
-    expect(parsedContent.declaration).toBe('myVar');
+      expect(parsedContent.value).toBe('red');
+      expect(parsedContent.declaration).toBe('myVar');
+    });
+
+    it('given multiline styles with multiple variables declarations create a tokens results correctly', () => {
+      const styles = `
+        $myVar: red;
+        $mySecondVar: blue;
+    `;
+
+      const parsedContent = scssParser(styles);
+      const [myVar, mySecondVar] = parsedContent;
+
+      expect(parsedContent.length).toBe(2);
+      expect(myVar.declaration).toBe('myVar');
+      expect(myVar.value).toBe('red');
+      expect(mySecondVar.declaration).toBe('mySecondVar');
+      expect(mySecondVar.value).toBe('blue');
+    });
   });
 
   describe('getOnlyDeclarationNodes', () => {
