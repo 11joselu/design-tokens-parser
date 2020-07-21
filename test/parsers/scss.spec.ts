@@ -7,8 +7,17 @@ describe('scssParser', () => {
     expect(parsedContent).toMatchObject({});
   });
 
-  it('generate styles tokens correctly', () => {
+  it('given inline styles create a tokens results correctly', () => {
     const parsedContent = scssParser('$myVar: red');
+
+    expect(parsedContent.value).toBe('red');
+    expect(parsedContent.declaration).toBe('myVar');
+  });
+
+  it('given multiline styles create a tokens results correctly', () => {
+    const parsedContent = scssParser(`
+    $myVar: red
+    `);
 
     expect(parsedContent.value).toBe('red');
     expect(parsedContent.declaration).toBe('myVar');

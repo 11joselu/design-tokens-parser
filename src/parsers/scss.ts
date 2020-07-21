@@ -2,7 +2,7 @@ import { parseContent, Node } from '../parseContent';
 
 const SYNTAX = 'scss';
 
-type ParserResult = {
+type TokensResult = {
   declaration: string;
   value: string;
   presenter: string;
@@ -18,15 +18,16 @@ type ParserResult = {
  */
 export const scssParser = (
   styles: string
-): ParserResult | Record<string, unknown> => {
+): TokensResult | Record<string, unknown> => {
   if (!styles) {
     return {};
   }
 
   const parsed = parseContent(styles, SYNTAX);
   const content = parsed.content as Node[];
+  const filteredContent = content.filter((node) => node.is('declaration'));
 
-  const result = content.map((node) => {
+  const result = filteredContent.map((node) => {
     const propertyNode = node.first('property');
     const variableNode = propertyNode.first('variable');
     const variableIdentNode = variableNode.first('ident');
