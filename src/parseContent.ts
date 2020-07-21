@@ -9,14 +9,20 @@ export type NodeType =
   | 'space'
   | 'value'
   | 'variable'
-  | 'ident';
+  | 'ident'
+  | 'multilineComment';
+
+export type Code = {
+  line: number;
+  column: number;
+};
 
 export type Node = {
   type: NodeType;
   content: string | Node[];
   syntax?: Syntax;
-  start: number;
-  end: number;
+  start: number | Code;
+  end: number | Code;
   first: (type?: NodeType) => Node;
   is: (type: NodeType) => boolean;
 };
