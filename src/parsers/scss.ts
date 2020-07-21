@@ -25,7 +25,7 @@ export const scssParser = (
 
   const parsed = parseContent(styles, SYNTAX);
   const content = parsed.content as Node[];
-  const filteredContent = content.filter((node) => node.is('declaration'));
+  const filteredContent = getOnlyDeclarationNodes(content);
 
   const result = filteredContent.map((node) => {
     const propertyNode = node.first('property');
@@ -44,3 +44,6 @@ export const scssParser = (
 
   return result[0];
 };
+
+export const getOnlyDeclarationNodes = (content: Node[]): Node[] =>
+  content.filter((node) => node.is('declaration'));
