@@ -67,13 +67,11 @@ describe('scssParser', () => {
           declaration: 'rgb',
           value: 'rgb(255, 255, 255)',
           presenter: '',
-          presenterName: '',
         },
         {
           declaration: 'rgba',
           value: 'rgba(255, 255, 255, 0.5)',
           presenter: '',
-          presenterName: '',
         },
       ];
 
@@ -97,13 +95,11 @@ describe('scssParser', () => {
         declaration: 'boxshadow',
         value: '10px 10px 5px 0px rgba(0,0,0,0.75)',
         presenter: '',
-        presenterName: '',
       },
       {
         declaration: 'boxshadowTwo',
         value: '0 0 0 10px hsl(0, 0%, 80%), 0 0 0 15px hsl(0, 0%, 90%)',
         presenter: '',
-        presenterName: '',
       },
     ];
 

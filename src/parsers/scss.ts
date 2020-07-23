@@ -6,7 +6,6 @@ type TokensResult = {
   declaration: string;
   value: string;
   presenter: string;
-  presenterName: string;
 };
 
 export const scssParser = (styles: string): TokensResult[] => {
@@ -43,7 +42,6 @@ export const scssParser = (styles: string): TokensResult[] => {
       declaration: variableIdentNode.toString(),
       value: valueNode.toString(),
       presenter: '',
-      presenterName: '',
     };
   });
 
