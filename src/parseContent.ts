@@ -25,6 +25,7 @@ export type Node = {
   type: NodeType;
   content: string | Node[];
   syntax?: Syntax;
+  token?: string;
   start: number | Code;
   end: number | Code;
   first: (type?: NodeType) => Node;

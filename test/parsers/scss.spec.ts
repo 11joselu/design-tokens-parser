@@ -24,7 +24,7 @@ describe('scssParser', () => {
       const [parsedContent] = scssParser(`
         /**
          * @tokens Colors
-         * @presenter Color
+
          */
         $myVar: red;
       `);
@@ -37,7 +37,6 @@ describe('scssParser', () => {
       const styles = `
       /**
        * @tokens Colors
-       * @presenter Color
        */
         $myVar: red;
         $mySecondVar: blue;
@@ -57,7 +56,6 @@ describe('scssParser', () => {
       const styles = `
       /**
        * @tokens Colors
-       * @presenter Color
        */
         $rgb: rgb(255, 255, 255);
         $rgba: rgba(255, 255, 255, 0.5);
@@ -66,12 +64,12 @@ describe('scssParser', () => {
         {
           declaration: 'rgb',
           value: 'rgb(255, 255, 255)',
-          presenter: '',
+          token: 'Colors',
         },
         {
           declaration: 'rgba',
           value: 'rgba(255, 255, 255, 0.5)',
-          presenter: '',
+          token: 'Colors',
         },
       ];
 
@@ -85,7 +83,6 @@ describe('scssParser', () => {
     const styles = `
       /**
        * @tokens Colors
-       * @presenter Color
        */
         $boxshadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
         $boxshadowTwo: 0 0 0 10px hsl(0, 0%, 80%), 0 0 0 15px hsl(0, 0%, 90%);
@@ -93,19 +90,41 @@ describe('scssParser', () => {
     const expectedResult = [
       {
         declaration: 'boxshadow',
+        token: 'Colors',
         value: '10px 10px 5px 0px rgba(0,0,0,0.75)',
-        presenter: '',
       },
       {
         declaration: 'boxshadowTwo',
+        token: 'Colors',
         value: '0 0 0 10px hsl(0, 0%, 80%), 0 0 0 15px hsl(0, 0%, 90%)',
-        presenter: '',
       },
     ];
 
     const parsedContent = scssParser(styles);
 
     expect(parsedContent).toMatchObject(expectedResult);
+  });
+
+  describe('Tokens tokenss', () => {
+    it('detect Color tokens', () => {
+      const token = `
+     /**
+       * @tokens Colors
+       */
+        $color: #fff;
+    `;
+      const expectedResult = [
+        {
+          declaration: 'color',
+          value: '#fff',
+          token: 'Colors',
+        },
+      ];
+
+      const parsedContent = scssParser(token);
+
+      expect(parsedContent).toMatchObject(expectedResult);
+    });
   });
 
   describe('getOnlyDeclarationNodes', () => {

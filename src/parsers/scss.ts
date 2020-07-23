@@ -1,11 +1,12 @@
 import { parseContent, Node, Code } from '../parseContent';
+import { parseComment, isTokensComment } from './commentParser';
 
 const SYNTAX = 'scss';
 
 type TokensResult = {
   declaration: string;
   value: string;
-  presenter: string;
+  token: string;
 };
 
 export const scssParser = (styles: string): TokensResult[] => {
@@ -17,14 +18,12 @@ export const scssParser = (styles: string): TokensResult[] => {
   const nodes = parsed.content as Node[];
   const tokenGroups = getOnlyTokensGroup(nodes);
 
-  const result: TokensResult[] = tokenGroups
+  return tokenGroups
     .map((group) => {
       return getTokensListByGroup(group, nodes);
     })
     .flat()
     .map(createTokenResultFromNode);
-
-  return result;
 };
 
 export const getOnlyTokensGroup = (nodes: Node[]): Node[] =>
@@ -32,14 +31,20 @@ export const getOnlyTokensGroup = (nodes: Node[]): Node[] =>
 
 const getTokensListByGroup = (group: Node, nodes: Node[]) => {
   const groupStart = group.start as Code;
+  const [tokenTag] = getComentTokenTag(group.toString());
   const filteredContent = getOnlyDeclarationNodes(nodes);
-  const groupedTokens = filteredContent.filter((declarationNode) => {
-    const start = declarationNode.start as Code;
 
-    return start.line >= groupStart.line;
-  });
+  return filteredContent
+    .filter((declarationNode) => {
+      const start = declarationNode.start as Code;
 
-  return groupedTokens;
+      return start.line >= groupStart.line;
+    })
+    .map((node) => {
+      node.token = tokenTag ? tokenTag.name : '';
+
+      return node;
+    });
 };
 
 const createTokenResultFromNode = (node: Node): TokensResult => {
@@ -51,7 +56,7 @@ const createTokenResultFromNode = (node: Node): TokensResult => {
   return {
     declaration: variableIdentNode.toString(),
     value: valueNode.toString(),
-    presenter: '',
+    token: node.token || '',
   };
 };
 
@@ -59,6 +64,14 @@ const isTokenGroup = (node: Node) =>
   !Array.isArray(node.content) &&
   node.is('multilineComment') &&
   node.content.indexOf('@tokens') > -1;
+
+const getComentTokenTag = (groupContent: string) => {
+  return parseComment(groupContent)
+    .map(({ tags }) => {
+      return tags.filter(isTokensComment).flat();
+    })
+    .flat();
+};
 
 export const getOnlyDeclarationNodes = (nodes: Node[]): Node[] =>
   nodes.filter((node) => node.is('declaration'));
