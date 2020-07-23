@@ -38,21 +38,10 @@ export const scssParser = (styles: string): TokensResult[] => {
     const variableNode = propertyNode.first('variable');
     const variableIdentNode = variableNode.first('ident');
     const valueNode = node.first('value');
-    const valueIdentNode =
-      valueNode.first('ident') ||
-      valueNode.first('function') ||
-      valueNode.first('color') ||
-      valueNode.first('dimension');
-
-    let nodeContent = valueIdentNode.content as string;
-
-    if (valueIdentNode.is('function')) {
-      nodeContent = getFunctionValues(valueIdentNode);
-    }
 
     return {
-      declaration: variableIdentNode.content as string,
-      value: nodeContent,
+      declaration: variableIdentNode.toString(),
+      value: valueNode.toString(),
       presenter: '',
       presenterName: '',
     };

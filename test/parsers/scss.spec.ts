@@ -83,6 +83,35 @@ describe('scssParser', () => {
     });
   });
 
+  it('allow box shadows values', () => {
+    const styles = `
+      /**
+       * @tokens Colors
+       * @presenter Color
+       */
+        $boxshadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+        $boxshadowTwo: 10x 10px 0px 0px;
+    `;
+    const expectedResult = [
+      {
+        declaration: 'boxshadow',
+        value: '10px 10px 5px 0px rgba(0,0,0,0.75)',
+        presenter: '',
+        presenterName: '',
+      },
+      {
+        declaration: 'boxshadowTwo',
+        value: '10x 10px 0px 0px',
+        presenter: '',
+        presenterName: '',
+      },
+    ];
+
+    const parsedContent = scssParser(styles);
+
+    expect(parsedContent).toMatchObject(expectedResult);
+  });
+
   describe('getOnlyDeclarationNodes', () => {
     it('filter correctly array of nodes by his type', () => {
       const nodes = [
