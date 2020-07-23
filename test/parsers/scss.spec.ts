@@ -125,6 +125,36 @@ describe('scssParser', () => {
 
       expect(parsedContent).toMatchObject(expectedResult);
     });
+
+    it('detect tokens type by multiple tokens groups', () => {
+      const token = `
+     /**
+       * @tokens Colors
+       */
+        $color: #fff;
+
+      /**
+       * @tokens Shadow
+       */
+        $shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    `;
+      const expectedResult = [
+        {
+          declaration: 'color',
+          value: '#fff',
+          token: 'Colors',
+        },
+        {
+          declaration: 'shadow',
+          value: '10px 10px 5px 0px rgba(0,0,0,0.75)',
+          token: 'Shadow',
+        },
+      ];
+
+      const parsedContent = scssParser(token);
+
+      expect(parsedContent).toMatchObject(expectedResult);
+    });
   });
 
   describe('getOnlyDeclarationNodes', () => {

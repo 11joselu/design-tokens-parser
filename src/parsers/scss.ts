@@ -19,8 +19,8 @@ export const scssParser = (styles: string): TokensResult[] => {
   const tokenGroups = getOnlyTokensGroup(nodes);
 
   return tokenGroups
-    .map((group) => {
-      return getTokensListByGroup(group, nodes);
+    .map((group, index, list) => {
+      return getTokensListByGroup(group, nodes, list[index + 1]);
     })
     .flat()
     .map(createTokenResultFromNode);
@@ -29,7 +29,7 @@ export const scssParser = (styles: string): TokensResult[] => {
 export const getOnlyTokensGroup = (nodes: Node[]): Node[] =>
   nodes.filter(isTokenGroup);
 
-const getTokensListByGroup = (group: Node, nodes: Node[]) => {
+const getTokensListByGroup = (group: Node, nodes: Node[], nextGroup?: Node) => {
   const groupStart = group.start as Code;
   const [tokenTag] = getComentTokenTag(group.toString());
   const filteredContent = getOnlyDeclarationNodes(nodes);
@@ -37,11 +37,15 @@ const getTokensListByGroup = (group: Node, nodes: Node[]) => {
   return filteredContent
     .filter((declarationNode) => {
       const start = declarationNode.start as Code;
+      const nextGroupCode = nextGroup?.start as Code;
+      const isBelowToken = start.line >= groupStart.line;
 
-      return start.line >= groupStart.line;
+      return nextGroupCode
+        ? isBelowToken && nextGroupCode.line > start.line
+        : isBelowToken;
     })
     .map((node) => {
-      node.token = tokenTag ? tokenTag.name : '';
+      node.token = tokenTag?.name;
 
       return node;
     });
@@ -56,7 +60,7 @@ const createTokenResultFromNode = (node: Node): TokensResult => {
   return {
     declaration: variableIdentNode.toString(),
     value: valueNode.toString(),
-    token: node.token || '',
+    token: node?.token,
   };
 };
 
