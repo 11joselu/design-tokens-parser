@@ -17,38 +17,43 @@ export const scssParser = (styles: string): TokensResult[] => {
   const nodes = parsed.content as Node[];
   const tokenGroups = getOnlyTokensGroup(nodes);
 
-  const items = tokenGroups
+  const result: TokensResult[] = tokenGroups
     .map((group) => {
-      const groupStart = group.start as Code;
-      const filteredContent = getOnlyDeclarationNodes(nodes);
-      const groupedTokens = filteredContent.filter((declarationNode) => {
-        const start = declarationNode.start as Code;
-
-        return start.line >= groupStart.line;
-      });
-
-      return groupedTokens;
+      return getTokensListByGroup(group, nodes);
     })
-    .flat();
-
-  const result: TokensResult[] = items.map((node) => {
-    const propertyNode = node.first('property');
-    const variableNode = propertyNode.first('variable');
-    const variableIdentNode = variableNode.first('ident');
-    const valueNode = node.first('value');
-
-    return {
-      declaration: variableIdentNode.toString(),
-      value: valueNode.toString(),
-      presenter: '',
-    };
-  });
+    .flat()
+    .map(createTokenResultFromNode);
 
   return result;
 };
 
 export const getOnlyTokensGroup = (nodes: Node[]): Node[] =>
   nodes.filter(isTokenGroup);
+
+const getTokensListByGroup = (group: Node, nodes: Node[]) => {
+  const groupStart = group.start as Code;
+  const filteredContent = getOnlyDeclarationNodes(nodes);
+  const groupedTokens = filteredContent.filter((declarationNode) => {
+    const start = declarationNode.start as Code;
+
+    return start.line >= groupStart.line;
+  });
+
+  return groupedTokens;
+};
+
+const createTokenResultFromNode = (node: Node): TokensResult => {
+  const propertyNode = node.first('property');
+  const variableNode = propertyNode.first('variable');
+  const variableIdentNode = variableNode.first('ident');
+  const valueNode = node.first('value');
+
+  return {
+    declaration: variableIdentNode.toString(),
+    value: valueNode.toString(),
+    presenter: '',
+  };
+};
 
 const isTokenGroup = (node: Node) =>
   !Array.isArray(node.content) &&
