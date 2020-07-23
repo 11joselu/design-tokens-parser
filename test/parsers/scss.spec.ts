@@ -90,7 +90,7 @@ describe('scssParser', () => {
        * @presenter Color
        */
         $boxshadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-        $boxshadowTwo: 10x 10px 0px 0px;
+        $boxshadowTwo: 0 0 0 10px hsl(0, 0%, 80%), 0 0 0 15px hsl(0, 0%, 90%);
     `;
     const expectedResult = [
       {
@@ -101,7 +101,7 @@ describe('scssParser', () => {
       },
       {
         declaration: 'boxshadowTwo',
-        value: '10x 10px 0px 0px',
+        value: '0 0 0 10px hsl(0, 0%, 80%), 0 0 0 15px hsl(0, 0%, 90%)',
         presenter: '',
         presenterName: '',
       },

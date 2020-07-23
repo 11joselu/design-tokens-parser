@@ -53,7 +53,7 @@ describe('parseContent', () => {
       expect(parsedStyles.content.length).toBe(10);
     });
 
-    fit('generate a correct content value from multiple lines styles', () => {
+    it('generate a correct content value from multiple lines styles', () => {
       const parsedStyles = parseContent(
         `
       $color: red;
