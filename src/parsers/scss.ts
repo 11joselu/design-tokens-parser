@@ -18,9 +18,8 @@ export const scssParser = (styles: string): TokensResult[] => {
   const tokenGroups = getOnlyTokensGroup(nodes);
 
   const items = tokenGroups
-    .map((group, index) => {
+    .map((group) => {
       const groupStart = group.start as Code;
-      // const nextTokenGroup = tokenGroups[index];
       const filteredContent = getOnlyDeclarationNodes(nodes);
       const groupedTokens = filteredContent.filter((declarationNode) => {
         const start = declarationNode.start as Code;
