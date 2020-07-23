@@ -60,12 +60,3 @@ const isTokenGroup = (node: Node) =>
 
 export const getOnlyDeclarationNodes = (nodes: Node[]): Node[] =>
   nodes.filter((node) => node.is('declaration'));
-
-const getFunctionValues = (node: Node): string => {
-  const ident = node.first('ident');
-  const argumentsContent = node.first('arguments').content as Node[];
-  let nodeContent = ident.content as string;
-  nodeContent += `(${argumentsContent.map((node) => node.content).join('')})`;
-
-  return nodeContent;
-};
