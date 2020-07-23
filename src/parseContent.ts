@@ -10,7 +10,11 @@ export type NodeType =
   | 'value'
   | 'variable'
   | 'ident'
-  | 'multilineComment';
+  | 'multilineComment'
+  | 'function'
+  | 'color'
+  | 'dimension'
+  | 'arguments';
 
 export type Code = {
   line: number;

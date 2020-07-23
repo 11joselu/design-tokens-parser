@@ -52,6 +52,35 @@ describe('scssParser', () => {
       expect(mySecondVar.declaration).toBe('mySecondVar');
       expect(mySecondVar.value).toBe('blue');
     });
+
+    it('allow rgb and rgba values', () => {
+      const styles = `
+      /**
+       * @tokens Colors
+       * @presenter Color
+       */
+        $rgb: rgb(255, 255, 255);
+        $rgba: rgba(255, 255, 255, 0.5);
+    `;
+      const expectedResult = [
+        {
+          declaration: 'rgb',
+          value: 'rgb(255, 255, 255)',
+          presenter: '',
+          presenterName: '',
+        },
+        {
+          declaration: 'rgba',
+          value: 'rgba(255, 255, 255, 0.5)',
+          presenter: '',
+          presenterName: '',
+        },
+      ];
+
+      const parsedContent = scssParser(styles);
+
+      expect(parsedContent).toMatchObject(expectedResult);
+    });
   });
 
   describe('getOnlyDeclarationNodes', () => {
