@@ -1,15 +1,17 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "noImplicitAny": false,
     "moduleResolution": "node",
+    "removeComments": true,
+    "declaration": true,
     "target": "es5",
-    "lib": ["es2019"],
+    "lib": ["es2019", "esnext"],
     "outDir": "./build",
-    "baseUrl": ".",
     "paths": {
       "@src/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*", "./test/**/*"],
+  "include": ["src/**/*", "./test/**/*", "index.ts"],
   "exclude": ["**/dist", "node_modules", "**/node_modules"]
 }
