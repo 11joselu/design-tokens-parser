@@ -1,7 +1,4 @@
-import {
-  scssParser,
-  getOnlyDeclarationNodes,
-} from '@src/parsers/preprocessors/scss';
+import { scssParser } from '@src/parsers/preprocessors/scss';
 import { NodeType, Node } from '@src/parsers/parseContent';
 
 describe('scssParser', () => {
@@ -157,20 +154,6 @@ describe('scssParser', () => {
       const parsedContent = scssParser(token);
 
       expect(parsedContent).toMatchObject(expectedResult);
-    });
-  });
-
-  describe('getOnlyDeclarationNodes', () => {
-    it('filter correctly array of nodes by his type', () => {
-      const nodes = [
-        createNode('declaration'),
-        createNode('ident'),
-        createNode('declaration'),
-      ];
-
-      const filteredNodes = getOnlyDeclarationNodes(nodes);
-
-      expect(filteredNodes.length).toBe(2);
     });
   });
 });

@@ -77,5 +77,5 @@ const getComentTokenTag = (groupContent: string) => {
     .flat();
 };
 
-export const getOnlyDeclarationNodes = (nodes: Node[]): Node[] =>
+const getOnlyDeclarationNodes = (nodes: Node[]): Node[] =>
   nodes.filter((node) => node.is('declaration'));
