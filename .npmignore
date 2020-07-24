@@ -1,11 +1,7 @@
-node_modules/
-build/
 .vscode/
 coverage/
 src/
 test/
-.eslintrc
-.prettierrc
 index.ts
 jest.config.js
 tsconfig.json
