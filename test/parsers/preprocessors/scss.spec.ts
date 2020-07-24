@@ -1,5 +1,8 @@
-import { scssParser, getOnlyDeclarationNodes } from '../../src/parsers/scss';
-import { Node, NodeType } from '../../src/parseContent';
+import {
+  scssParser,
+  getOnlyDeclarationNodes,
+} from '@src/parsers/preprocessors/scss';
+import { NodeType, Node } from '@src/parsers/parseContent';
 
 describe('scssParser', () => {
   describe('styles parser', () => {

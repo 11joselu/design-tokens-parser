@@ -1,4 +1,4 @@
-import { parseContent, Node } from '../src/parseContent';
+import { parseContent, Node } from '../../src/parsers/parseContent';
 
 describe('parseContent', () => {
   it('returns a Node instance', () => {

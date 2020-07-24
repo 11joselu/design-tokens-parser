@@ -1,5 +1,5 @@
 import { parseContent, Node, Code } from '../parseContent';
-import { parseComment, isTokensComment } from './commentParser';
+import { parseComment, isTokensComment } from '../commentParser';
 
 const SYNTAX = 'scss';
 
