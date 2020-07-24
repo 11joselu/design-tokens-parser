@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
-    "lint": "tsc --noEmit && eslint '*/**/*.ts' --quiet --fix"
+    "lint": "tsc --noEmit && eslint '*/**/*.ts' --quiet --fix",
+    "publish": "npm run build && npm publish"
   },
   "author": "Jose Cabrera <joselu11cabrera@gmail.com>",
   "license": "MIT",
