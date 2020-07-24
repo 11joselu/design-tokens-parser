@@ -1,7 +1,5 @@
 {
-  "compileOnSave": false,
   "compilerOptions": {
-    "rootDir": "./src",
     "noImplicitAny": false,
     "moduleResolution": "node",
     "target": "es5",
