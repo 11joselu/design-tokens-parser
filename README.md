@@ -16,7 +16,7 @@ Design tokens are design decisions, represented as data, that ensure systematica
 ## Install
 
 ```sh
-npm install
+npm iinstall --save design-tokens-parser
 ```
 
 ## Usage
