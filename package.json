@@ -28,14 +28,14 @@
     "typescript": "3.9.7"
   },
   "lint-staged": {
-    "{src,test}/**/*.{ts}": [
-      "npm run lint",
-      "npm run test"
+    "*.ts": [
+      "npm run lint"
     ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test"
     }
   }
 }
