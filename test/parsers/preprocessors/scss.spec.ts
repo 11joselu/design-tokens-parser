@@ -1,5 +1,4 @@
 import { scssParser } from '@src/parsers/preprocessors/scss';
-import { NodeType, Node } from '@src/parsers/parseContent';
 
 describe('scssParser', () => {
   describe('styles parser', () => {
@@ -157,16 +156,3 @@ describe('scssParser', () => {
     });
   });
 });
-
-function createNode(type: NodeType): Node {
-  return {
-    type,
-    content: '',
-    start: -1,
-    end: -1,
-    first: (type?: NodeType) => createNode(type),
-    is: function (validationType) {
-      return this.type === validationType;
-    },
-  };
-}
