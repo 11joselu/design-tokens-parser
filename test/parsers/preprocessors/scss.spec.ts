@@ -154,5 +154,34 @@ describe('scssParser', () => {
 
       expect(parsedContent).toMatchObject(expectedResult);
     });
+
+    it('omit not tokenize comments', () => {
+      const token = `
+     /**
+       * This is a comment
+       */
+        $color: #fff;
+    `;
+      const expectedResult = [];
+
+      const parsedContent = scssParser(token);
+
+      expect(parsedContent).toMatchObject(expectedResult);
+    });
+
+    it('omit jsdoc comments block with @', () => {
+      const token = `
+     /**
+       * @item
+       * This is a comment
+       */
+        $color: #fff;
+    `;
+      const expectedResult = [];
+
+      const parsedContent = scssParser(token);
+
+      expect(parsedContent).toMatchObject(expectedResult);
+    });
   });
 });
