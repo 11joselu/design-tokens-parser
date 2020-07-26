@@ -1,6 +1,5 @@
-import * as parser from 'comment-parser';
+import parse = require('comment-parser/parser.js');
 
-export type Comment = parser.Comment;
 export type Tag = {
   /**
    * The tag's kind, eg `param` or `return`.
@@ -12,8 +11,15 @@ export type Tag = {
   name: string;
 };
 
+export interface Comment {
+  tags: Tag[];
+  line: number;
+  description: string;
+  source: string;
+}
+
 export const parseComment = (comment: string): Comment[] => {
-  return parser(comment);
+  return parse(comment);
 };
 
 export const isTokensComment = (comment: Tag): boolean =>
