@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to Preprocessors Design Tokens Parser 👋</h1>
+<h1 align="center">Welcome to Preprocessors Tokens Parser 👋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-0.0.1-blue.svg?cacheSeconds=2592000" />
   <a href="#" target="_blank">
@@ -26,7 +26,7 @@ Parse the content of your stylesheets in search of specific comment blocks. Only
 The block must indicate using the <code>@tokens</code> <code>presenter</code> property. The **presenter** refers to the example to use in your design tokens.
 
 ```javascript
-const { scssParser } = require('design-tokens-parser');
+const { scssParser } = require('preprocessors-tokens-parser');
 
 const fileContent = `
   /**
