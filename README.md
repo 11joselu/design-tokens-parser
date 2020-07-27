@@ -63,12 +63,8 @@ npm run test
 
 ## Author
 
-👤 **Jose Cabrera <joselu11cabrera@gmail.com>**
+**Jose Cabrera <joselu11cabrera@gmail.com>**
 
 - Twitter: [@11joselu](https://twitter.com/11joselu)
 - Github: [@11joselu](https://github.com/11joselu)
 - LinkedIn: [@Jose Cabrera](www.linkedin.com/in/jose-cabrera-8543b9b3)
-
-## Show your support
-
-Give a ⭐️ if this project helped you!
