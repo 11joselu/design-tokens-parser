@@ -1,6 +1,6 @@
 import { parse } from 'gonzales-pe';
 
-type Syntax = 'less' | 'scss' | 'css';
+export type Syntax = 'less' | 'scss' | 'css';
 
 export type NodeType =
   | 'declaration'

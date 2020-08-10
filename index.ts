@@ -1,1 +1,1 @@
-export * from './src/parsers/preprocessors/scss';
+export * from './src/parsers/preprocessors';
