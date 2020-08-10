@@ -26,7 +26,8 @@ Parse the content of your stylesheets in search of specific comment blocks. Only
 The block must indicate using the <code>@tokens</code> <code>presenter</code> property. The **presenter** refers to the example to use in your design tokens.
 
 ```javascript
-const { scssParser } = require('design-tokens-parser');
+const { scssParser, lessParser } = require('design-tokens-parser');
+// const { lessParser } = require('design-tokens-parser');
 
 const fileContent = `
   /**
@@ -54,9 +55,14 @@ const result = scssParser(fileContent);
 npm run test
 ```
 
+### Supported languages
+
+- scss
+
+- less
+
 ## TODO
 
-- Support LESS
 - Support CSS
 - Allow to use descriptio block
 - Allow variable references as a value
