@@ -146,4 +146,81 @@ describe('parseContent', () => {
       });
     });
   });
+
+  describe('css support', () => {
+    it('returns a Node instance', () => {
+      const parsedStyles = parseContent('', 'css');
+      expect(parsedStyles).toMatchObject({
+        type: 'stylesheet',
+        content: [],
+        syntax: undefined,
+        start: [0, 0],
+        end: [0, 0],
+      });
+    });
+
+    it("given 'less' syntax parameter generate correct Node syntax attribute", () => {
+      const parsedStyles = parseContent(
+        `
+        :root {
+        --border: 8px;
+        }
+      `,
+        'css'
+      );
+
+      expect(parsedStyles.syntax).toBe('css');
+    });
+
+    describe('Node length', () => {
+      it('generate a correct content length from inline styles', () => {
+        const parsedStyles = parseContent(':root {--border: 8px; }', 'css');
+
+        expect(parsedStyles.content.length).toBe(1);
+      });
+
+      it('generate a correct content length from multiple lines styles', () => {
+        const parsedStyles = parseContent(
+          `
+          :root {
+            --color: red;
+          }
+      `,
+          'css'
+        );
+
+        expect(parsedStyles.content.length).toBe(3);
+      });
+
+      it('generate a correct content length from multiple lines styles', () => {
+        const parsedStyles = parseContent(
+          `
+          :root {
+            --color: red;
+          }
+      `,
+          'css'
+        );
+
+        const [spaceNode, ruleset] = parsedStyles.content as Node[];
+
+        expect(spaceNode.type).toBe('space');
+        expect(ruleset.type).toBe('ruleset');
+        expect(parsedStyles.content.length).toBe(3);
+
+        const block = ruleset.first('block');
+        expect(block).not.toBeNull();
+
+        const declaration = block.first('declaration');
+        expect(declaration).not.toBeNull();
+        expect(declaration.toString()).toBe('--color: red');
+
+        const property = declaration.first('customProperty');
+        expect(property.toString()).toBe('--color');
+
+        const value = declaration.first('value');
+        expect(value.toString()).toBe('red');
+      });
+    });
+  });
 });

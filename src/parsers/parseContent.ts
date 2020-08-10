@@ -14,7 +14,10 @@ export type NodeType =
   | 'function'
   | 'color'
   | 'dimension'
-  | 'arguments';
+  | 'arguments'
+  | 'ruleset'
+  | 'block'
+  | 'customProperty';
 
 export type Code = {
   line: number;
