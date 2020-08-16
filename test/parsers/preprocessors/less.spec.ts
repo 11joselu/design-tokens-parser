@@ -184,4 +184,48 @@ describe('lessParser', () => {
       expect(parsedContent).toMatchObject(expectedResult);
     });
   });
+
+  describe('variable references', () => {
+    it('should get value from variable reference', () => {
+      const token = `
+     /**
+       * @tokens Colors
+       */
+        @blue: cyan;
+        @red: tomato;
+
+        @primary: @blue;
+        @secondary: @red;
+    `;
+
+      const expectedResult = [
+        {
+          declaration: 'blue',
+          value: 'cyan',
+          token: 'Colors',
+        },
+        {
+          declaration: 'red',
+          value: 'tomato',
+          token: 'Colors',
+        },
+        {
+          declaration: 'primary',
+          value: 'cyan',
+          token: 'Colors',
+          reference: '@blue',
+        },
+        {
+          declaration: 'secondary',
+          value: 'tomato',
+          token: 'Colors',
+          reference: '@red',
+        },
+      ];
+
+      const parsedContent = lessParser(token);
+
+      expect(parsedContent).toMatchObject(expectedResult);
+    });
+  });
 });
