@@ -70,6 +70,7 @@ const createTokenResultFromNode = (
 ): TokensResult => {
   const propertyNode = node.first('property');
   const variableNode = propertyNode.first('variable');
+  const variableDeclaration = propertyNode.first('variable').toString();
   const declaration = variableNode.first('ident').toString();
   const valueNode = node.first('value');
   const value = removeBeginDeclaration(valueNode.toString());
@@ -77,7 +78,7 @@ const createTokenResultFromNode = (
   foundDeclarationWithValues[declaration] = value;
 
   const tokenResult: TokensResult = {
-    declaration,
+    declaration: variableDeclaration,
     value: value,
     token: node?.token,
   };

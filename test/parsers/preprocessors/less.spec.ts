@@ -29,7 +29,7 @@ describe('lessParser', () => {
       `);
 
       expect(parsedContent.value).toBe('red');
-      expect(parsedContent.declaration).toBe('myVar');
+      expect(parsedContent.declaration).toBe('@myVar');
     });
 
     it('given multiline styles with multiple variables declarations create a tokens results correctly', () => {
@@ -45,9 +45,9 @@ describe('lessParser', () => {
       const [myVar, mySecondVar] = parsedContent;
 
       expect(parsedContent.length).toBe(2);
-      expect(myVar.declaration).toBe('myVar');
+      expect(myVar.declaration).toBe('@myVar');
       expect(myVar.value).toBe('red');
-      expect(mySecondVar.declaration).toBe('mySecondVar');
+      expect(mySecondVar.declaration).toBe('@mySecondVar');
       expect(mySecondVar.value).toBe('blue');
     });
 
@@ -61,12 +61,12 @@ describe('lessParser', () => {
     `;
       const expectedResult = [
         {
-          declaration: 'rgb',
+          declaration: '@rgb',
           value: 'rgb(255, 255, 255)',
           token: 'Colors',
         },
         {
-          declaration: 'rgba',
+          declaration: '@rgba',
           value: 'rgba(255, 255, 255, 0.5)',
           token: 'Colors',
         },
@@ -88,12 +88,12 @@ describe('lessParser', () => {
     `;
     const expectedResult = [
       {
-        declaration: 'boxshadow',
+        declaration: '@boxshadow',
         token: 'Colors',
         value: '10px 10px 5px 0px rgba(0,0,0,0.75)',
       },
       {
-        declaration: 'boxshadowTwo',
+        declaration: '@boxshadowTwo',
         token: 'Colors',
         value: '0 0 0 10px hsl(0, 0%, 80%), 0 0 0 15px hsl(0, 0%, 90%)',
       },
@@ -114,7 +114,7 @@ describe('lessParser', () => {
     `;
       const expectedResult = [
         {
-          declaration: 'color',
+          declaration: '@color',
           value: '#fff',
           token: 'Colors',
         },
@@ -139,12 +139,12 @@ describe('lessParser', () => {
     `;
       const expectedResult = [
         {
-          declaration: 'color',
+          declaration: '@color',
           value: '#fff',
           token: 'Colors',
         },
         {
-          declaration: 'shadow',
+          declaration: '@shadow',
           value: '10px 10px 5px 0px rgba(0,0,0,0.75)',
           token: 'Shadow',
         },
@@ -200,23 +200,23 @@ describe('lessParser', () => {
 
       const expectedResult = [
         {
-          declaration: 'blue',
+          declaration: '@blue',
           value: 'cyan',
           token: 'Colors',
         },
         {
-          declaration: 'red',
+          declaration: '@red',
           value: 'tomato',
           token: 'Colors',
         },
         {
-          declaration: 'primary',
+          declaration: '@primary',
           value: 'cyan',
           token: 'Colors',
           reference: '@blue',
         },
         {
-          declaration: 'secondary',
+          declaration: '@secondary',
           value: 'tomato',
           token: 'Colors',
           reference: '@red',
