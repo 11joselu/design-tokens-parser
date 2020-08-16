@@ -3,6 +3,8 @@ import { parseComment, isTokensComment } from '../commentParser';
 import { TokensResult } from './tokenResult';
 
 export const parser = (styles: string, syntax: Syntax): TokensResult[] => {
+  const foundDeclarationWithValues: Record<string, string> = {};
+
   if (!styles) {
     return [];
   }
@@ -16,7 +18,9 @@ export const parser = (styles: string, syntax: Syntax): TokensResult[] => {
       return getTokensListByGroup(group, nodes, list[index + 1]);
     })
     .flat()
-    .map(createTokenResultFromNode);
+    .map((value) => {
+      return createTokenResultFromNode(value, foundDeclarationWithValues);
+    });
 };
 
 export const getOnlyTokensGroup = (nodes: Node[]): Node[] =>
@@ -44,19 +48,6 @@ const getTokensListByGroup = (group: Node, nodes: Node[], nextGroup?: Node) => {
     });
 };
 
-const createTokenResultFromNode = (node: Node): TokensResult => {
-  const propertyNode = node.first('property');
-  const variableNode = propertyNode.first('variable');
-  const variableIdentNode = variableNode.first('ident');
-  const valueNode = node.first('value');
-
-  return {
-    declaration: variableIdentNode.toString(),
-    value: valueNode.toString(),
-    token: node?.token,
-  };
-};
-
 const isTokenGroup = (node: Node) =>
   !Array.isArray(node.content) &&
   node.is('multilineComment') &&
@@ -72,3 +63,32 @@ const getComentTokenTag = (groupContent: string) => {
 
 const getOnlyDeclarationNodes = (nodes: Node[]): Node[] =>
   nodes.filter((node) => node.is('declaration'));
+
+const createTokenResultFromNode = (
+  node: Node,
+  foundDeclarationWithValues: Record<string, string> = {}
+): TokensResult => {
+  const propertyNode = node.first('property');
+  const variableNode = propertyNode.first('variable');
+  const declaration = variableNode.first('ident').toString();
+  const valueNode = node.first('value');
+  const value = removeBeginDeclaration(valueNode.toString());
+
+  foundDeclarationWithValues[declaration] = value;
+
+  const tokenResult: TokensResult = {
+    declaration,
+    value: value,
+    token: node?.token,
+  };
+
+  if (valueNode.first('variable')) {
+    tokenResult.value = foundDeclarationWithValues[value];
+    tokenResult.reference = valueNode.toString();
+  }
+
+  return tokenResult;
+};
+
+const removeBeginDeclaration = (valueNode: string) =>
+  valueNode.replace(/\$|@/, '');
