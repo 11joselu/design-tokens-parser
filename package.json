@@ -1,6 +1,6 @@
 {
   "name": "design-tokens-parser",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Design tokens are design decisions, represented as data, that ensure systematically unified and cohesive product experiences.",
   "main": "build/index.js",
   "repository": {
